@@ -1,0 +1,12 @@
+{
+    "name": "awsGodaddy",
+    "main": "index.ts",
+    "devDependencies": {
+        "@types/node": "^18",
+        "typescript": "^5.0.0"
+    },
+    "dependencies": {
+        "@pulumi/command": "^0.0.1-testwindows.signing",
+        "@pulumi/pulumi": "^3.113.0"
+    }
+}

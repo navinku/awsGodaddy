@@ -1,0 +1,49 @@
+stages:
+  - setup
+  - deploy
+
+variables:
+  - export PULUMI_CONFIG_PASSPHRASE=${PULUMI_CONFIG_PASSPHRASE}
+  - export PULUMI_BACKEND_URL="s3://${PULUMI_S3_BUCKET}"  # Set backend from env
+  - pulumi login ${PULUMI_BACKEND_URL}
+setup:
+  stage: setup
+  image: node:16
+  script:
+    - npm install -g pulumi
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
+
+deploy-preview:
+  stage: deploy
+  image: node:16
+  dependencies:
+    - setup
+  script:
+    - npm install -g pulumi
+    - pulumi stack select sbx
+    - pulumi preview --diff
+  when: manual
+  environment:
+    name: production
+    url: https://api.godaddy.com
+  only:
+    - main
+
+deploy-yes:
+  stage: deploy
+  image: node:16
+  dependencies:
+    - setup
+  script:
+    - npm install -g pulumi
+    - pulumi stack select sbx
+    - pulumi up --yes
+  when: manual
+  environment:
+    name: production
+    url: https://api.godaddy.com
+  only:
+    - main
