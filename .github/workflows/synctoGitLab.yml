@@ -28,6 +28,7 @@ jobs:
           # Add GitLab as a remote
           git remote add gitlab https://oauth2:${GITLAB_TOKEN}@gitlab.com/org-navinku/awsgoddady.git
 
+          
           # Push to GitLab (force to ensure sync)
           git push --force gitlab main
           # git push gitlab main:sync-main
