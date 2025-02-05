@@ -4,8 +4,9 @@ stages:
 
 variables:
   - export PULUMI_CONFIG_PASSPHRASE=${PULUMI_CONFIG_PASSPHRASE}
-  - export PULUMI_BACKEND_URL="s3://${PULUMI_S3_BUCKET}"  # Set backend from env
+  - export PULUMI_BACKEND_URL="s3://${PULUMI_S3_BUCKET}" # Set backend from env
   - pulumi login ${PULUMI_BACKEND_URL}
+
 setup:
   stage: setup
   image: node:16
