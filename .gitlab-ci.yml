@@ -1,25 +1,29 @@
+image:
+  name: pulumi/pulumi:latest
+  entrypoint: [""]
+
 stages:
   - setup
   - deploy
 
-variables:
+before_script:
   - export PULUMI_CONFIG_PASSPHRASE=${PULUMI_CONFIG_PASSPHRASE}
   - export PULUMI_BACKEND_URL="s3://${PULUMI_S3_BUCKET}" # Set backend from env
   - pulumi login ${PULUMI_BACKEND_URL}
 
 setup:
   stage: setup
-  image: node:16
   script:
     - npm install -g pulumi
     - npm install
   artifacts:
     paths:
       - node_modules/
+    expire_in: 1h
+  when: always
 
 deploy-preview:
   stage: deploy
-  image: node:16
   dependencies:
     - setup
   script:
@@ -35,7 +39,6 @@ deploy-preview:
 
 deploy-yes:
   stage: deploy
-  image: node:16
   dependencies:
     - setup
   script:
